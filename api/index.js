@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { pool } from "../db.js";
 import dotenv from "dotenv";
-import Serverless from "serverless-http";
+import ServerlessHttp from "serverless-http";
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
   res.send("server is listening..");
 });
 
-app.get("/users", async (req, res) => {
+app.get("/users", verifyToken, async (req, res) => {
   try {
     let result = await pool.query(`SELECT * FROM  users`);
     res.send(result.rows);
@@ -68,8 +68,4 @@ function verifyToken(req, res, next) {
   }
 }
 
-// app.listen(port, () => {
-//   console.log(`server is running on port http://${host}:${port}`);
-// });
-
-export const handler = Serverless(app)
+export const handler = ServerlessHttp(app);

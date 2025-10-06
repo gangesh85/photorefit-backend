@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
   res.send("server is listening..");
 });
 
-app.get("/users", verifyToken, async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
     let result = await pool.query(`SELECT * FROM  users`);
     res.send(result.rows);

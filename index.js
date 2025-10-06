@@ -15,6 +15,10 @@ const jwtKey = process.env.JWT_SECRET;
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("server is listening..");
+});
+
 app.get("/users", verifyToken, async (req, res) => {
   try {
     let result = await pool.query(`SELECT * FROM  users`);
